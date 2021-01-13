@@ -180,4 +180,5 @@ endfunction
 function! block_paste#toggle_fill_blank()
   let value = get(g:, 'block_paste_fill_blank', 0) ? 0 : 1
   let g:block_paste_fill_blank = value
+  echo value
 endfunction
