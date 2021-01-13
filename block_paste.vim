@@ -48,12 +48,34 @@ function! s:restore()
 endfunction
 
 function! s:put()
-  echo 'x: '.g:moving_x.' y: '.g:moving_y
+  let dest = {'x': g:pos.x + g:moving_x, 'y': g:pos.y + g:moving_y}
+  let selected = split(g:selected, '\n')
+  let index = 0
+  let selected_line_numbers = range(dest.y, dest.y + winheight(0) - 1)
+
+  " 選択した文字列を1行ずつ入力
+  for lnum in selected_line_numbers
+    call s:focus_to_main_window()
+    call cursor(lnum, dest.x)
+    " 移動先のx座標が行末より大きい場合、パディングする
+    if dest.x > col('$')
+      let line_len = dest.x - col('$')
+      execute ':normal i' . repeat(' ', line_len)
+      call cursor(lnum, dest.x)
+    endif
+    execute ':normal i' . selected[index]
+    let index += 1
+  endfor
+
+  " 選択範囲の文字列、FloatingWindowを削除
+  :silent '<,'>s/\%V./ /g
+  call s:close_window()
 endfunction
 
 function! s:make_block()
   " 選択範囲の開始/終了の行と列を取得
   normal `<
+  let g:pos = {'x': col('.'), 'y': line('.')}
   let start = {'x': wincol(), 'y': winline()}
   normal `>
   let end = {'x': wincol(), 'y': winline()}
@@ -61,7 +83,7 @@ function! s:make_block()
   " 選択範囲の文字列を取得
   let tmp = @@
   silent normal gvy
-  let selected = @@
+  let g:selected = @@
   let @@ = tmp
 
   " 選択範囲にFloatingWindowを作成
@@ -72,8 +94,11 @@ function! s:make_block()
   let config = {'relative': 'editor', 'row': row, 'col': col, 'width':width, 'height': height, 'anchor': 'NW', 'style': 'minimal'}
   let g:back_win_id = s:create_window(config, 'Normal:NonText')
   let g:block_win_id = s:create_window(config, 'Normal:Visual')
-  call setline(1, selected)
-  :%s/[\x0]//g
+  call setline(1, g:selected)
+  if height > 1
+    " ^@を削除
+    :%s/[\x0]//g
+  endif
 
   " ブロックを移動した分を計算するための変数
   let g:moving_x = 0
@@ -88,5 +113,4 @@ function! s:make_block()
   nnoremap <buffer><nowait><silent> u :call <SID>restore()<CR>
 endfunction
 
-" call s:make_block()
-command! -range Block call s:make_block()
+command! -range Bmw call s:make_block()
