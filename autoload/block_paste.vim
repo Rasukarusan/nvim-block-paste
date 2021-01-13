@@ -124,8 +124,13 @@ function! s:put()
   endfor
 
   " 選択範囲の文字列、FloatingWindowを削除
-  :silent '<,'>s/\%V./ /g
+  if get(g:, 'block_paste_fill_blank', 0)
+    silent normal gvd
+  else 
+    :silent '<,'>s/\%V./ /g
+  endif
   call s:close_window()
+
 endfunction
 
 function! block_paste#create_block()
@@ -170,4 +175,9 @@ function! block_paste#create_block()
   nnoremap <buffer><nowait><silent> h :call <SID>move_x(-1)<CR>
   nnoremap <buffer><nowait><silent> p :call <SID>put()<CR>
   nnoremap <buffer><nowait><silent> u :call <SID>restore()<CR>
+endfunction
+
+function! block_paste#toggle_fill_blank()
+  let value = get(g:, 'block_paste_fill_blank', 0) ? 0 : 1
+  let g:block_paste_fill_blank = value
 endfunction
