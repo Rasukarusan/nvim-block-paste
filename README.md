@@ -34,3 +34,20 @@ Select blockwise by `C-v` and execute `:Block`
 | l   | move right the block  |
 | p   | put the block  |
 | u   | undo  |
+
+## Settings
+
+You can set whether to delete the selected block or replace it with a space.  
+Default 0 (replace with a space).
+```vim
+" delete selected block
+let g:block_paste_fill_blank = 1
+```
+
+You can toggle by `ToggleBlockPasteFillBlank ` command.
+```vim
+:ToggleBlockPasteFillBlank 
+
+": echo g:block_paste_fill_blank
+```
+
