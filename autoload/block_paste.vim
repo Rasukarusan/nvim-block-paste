@@ -128,7 +128,7 @@ function! s:put()
   call s:close_window()
 endfunction
 
-function! s:make_block()
+function! block_paste#create_block()
   let s:buffer_width = s:get_buffer_width()
   let s:buffer_min_row = line('w0')
 
@@ -171,5 +171,3 @@ function! s:make_block()
   nnoremap <buffer><nowait><silent> p :call <SID>put()<CR>
   nnoremap <buffer><nowait><silent> u :call <SID>restore()<CR>
 endfunction
-
-command! -range Stamp call s:make_block()
