@@ -130,7 +130,7 @@ function! s:put()
   if get(g:, 'block_paste_fill_blank', 0)
     silent normal gvd
   else
-    :silent '<,'>s/\%V./ /g
+    silent '<,'>s/\%V./ /g
   endif
   call s:close_window()
 
@@ -164,7 +164,7 @@ function! block_paste#create_block()
   call setline(1, s:selected)
   if s:height > 1
     " ^@を削除
-    :%s/[\x0]//g
+    %s/[\x0]//g
   endif
 
   " ブロックを移動した分を計算するための変数
