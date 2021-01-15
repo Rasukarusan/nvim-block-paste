@@ -45,9 +45,6 @@ function! s:close_window()
 endfunction
 
 function! s:create_window(config, hi_group)
-  let window_width = nvim_win_get_width(0)
-  let window_height = nvim_win_get_height(0)
-  let width = float2nr(window_width*0.4)
   let buf = nvim_create_buf(v:false, v:true)
   let win_id = nvim_open_win(buf, v:true, a:config)
   call nvim_win_set_option(win_id, 'winhighlight', a:hi_group)
@@ -126,7 +123,7 @@ function! s:put()
   " 選択範囲の文字列、FloatingWindowを削除
   if get(g:, 'block_paste_fill_blank', 0)
     silent normal gvd
-  else 
+  else
     :silent '<,'>s/\%V./ /g
   endif
   call s:close_window()
