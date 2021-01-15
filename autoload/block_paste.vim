@@ -33,6 +33,12 @@ function! s:get_buffer_width()
   return width - numwidth - foldwidth - signwidth
 endfunction
 
+function! s:get_tabline_height()
+  let is_show_tabline = &showtabline != 0
+  let tab_page_count = tabpagenr('$')
+  return tab_page_count > 1 && is_show_tabline == 1 ? 1 : 0
+endfunction
+
 function! s:close_window()
   if exists('s:block_win_id ')
     call nvim_win_close(s:block_win_id, v:true)
@@ -150,7 +156,7 @@ function! block_paste#create_block()
   " 選択範囲にFloatingWindowを作成
   let s:width = abs(end.x - start.x) + 1
   let s:height = abs(end.y - start.y) + 1
-  let row = start.y - 1
+  let row = start.y - 1 + s:get_tabline_height()
   let col = start.x - 1
   let config = {'relative': 'editor', 'row': row, 'col': col, 'width':s:width, 'height': s:height, 'anchor': 'NW', 'style': 'minimal'}
   let s:back_win_id = s:create_window(config, 'Normal:NonText')
