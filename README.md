@@ -4,6 +4,9 @@ Vim-Block-Paste
 You can insert visual-block to anywhere!
 
 ## Demo
+![demo2.gif](https://user-images.githubusercontent.com/17779386/106469918-42713000-64e3-11eb-87df-b6a2dcd505c4.gif)
+
+Remove spaces after pasted
 ![demo.gif](https://user-images.githubusercontent.com/17779386/106455970-49427780-64d0-11eb-9d67-eb34d2abcef0.gif)
 
 ## Requirement
