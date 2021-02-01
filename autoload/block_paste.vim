@@ -70,16 +70,16 @@ function! s:move_y(direction)
   let config.row += a:direction
   call nvim_win_set_config(s:block_win_id, config)
 
-  " 移動した分を計算しておく
+  " for calculate the block movement
   let s:moving_y += a:direction
 endfunction
 
 function! s:move_x(direction)
-  " 左に行きすぎないよう制御
+  " control not to go too far to the left
   if s:pos.x + s:moving_x == 1 && a:direction == -1
     return
   endif
-  " 右に行きすぎないよう制御
+  " control not to go too far to the right
   if s:pos.x + s:moving_x + s:width == s:buffer_width && a:direction == 1
     return
   endif
@@ -87,7 +87,7 @@ function! s:move_x(direction)
   let config.col += a:direction
   call nvim_win_set_config(s:block_win_id, config)
 
-  " 移動した分を計算しておく
+  " for calculate the block movement
   let s:moving_x += a:direction
 endfunction
 
@@ -104,7 +104,7 @@ function! s:put()
 
   call s:focus_to_main_window()
 
-  " 移動先のy座標が最終行を超えている場合、超過分を改行で作っておく
+  " If the y-coordinate of the destination exceeds the last line, make the excess with a line break.
   let last_line = line('$')
   if dest.y > last_line || (dest.y == last_line && len(selected_line_numbers) > 1)
     for l in range(last_line, dest.y + len(selected_line_numbers) - 2)
@@ -112,11 +112,11 @@ function! s:put()
     endfor
   endif
 
-  " 選択した文字列を1行ずつ入力
+  " Enter the selected string line by line
   for lnum in selected_line_numbers
     let dest_x = dest.x < 0 ? 1 : dest.x
     call cursor(lnum, dest_x)
-    " 移動先のx座標が行末より大きい場合、パディングする
+    " If the x coordinate of the destination is larger than the end of the line, padding
     if dest.x >= col('$')
       let line_len = dest.x - col('$')
       execute ':normal i' . repeat(' ', line_len)
@@ -126,7 +126,7 @@ function! s:put()
     let index += 1
   endfor
 
-  " 選択範囲の文字列、FloatingWindowを削除
+  " removed the floating window and selected string
   if get(g:, 'block_paste_fill_blank', 0)
     silent normal gvd
   else
@@ -140,20 +140,20 @@ function! block_paste#create_block()
   let s:buffer_width = s:get_buffer_width()
   let s:buffer_min_row = line('w0')
 
-  " 選択範囲の開始/終了の行と列を取得
+  " Get the start / end rows and columns of the selection
   normal `<
   let s:pos = {'x': col('.'), 'y': line('.')}
   let start = {'x': wincol(), 'y': winline()}
   normal `>
   let end = {'x': wincol(), 'y': winline()}
 
-  " 選択範囲の文字列を取得
+  " Get the selection string
   let tmp = @@
   silent normal gvy
   let s:selected = @@
   let @@ = tmp
 
-  " 選択範囲にFloatingWindowを作成
+  " Create a floating window in the selection
   let s:width = abs(end.x - start.x) + 1
   let s:height = abs(end.y - start.y) + 1
   let row = start.y - 1 + s:get_tabline_height()
@@ -163,15 +163,15 @@ function! block_paste#create_block()
   let s:block_win_id = s:create_window(config, 'Normal:Visual')
   call setline(1, s:selected)
   if s:height > 1
-    " ^@を削除
+    " remove '^@'
     %s/[\x0]//g
   endif
 
-  " ブロックを移動した分を計算するための変数
+  " for calculating the amount of block movement
   let s:moving_x = 0
   let s:moving_y = 0
 
-  " ブロック操作
+  " keybinds of the block
   nnoremap <buffer><nowait><silent> j :call <SID>move_y(1)<CR>
   nnoremap <buffer><nowait><silent> k :call <SID>move_y(-1)<CR>
   nnoremap <buffer><nowait><silent> l :call <SID>move_x(1)<CR>
