@@ -128,12 +128,16 @@ function! s:put()
 
   " removed the floating window and selected string
   if get(g:, 'block_paste_fill_blank', 0)
-    silent normal gvd
+    silent '<,'>s/\%V.//g
   else
     silent '<,'>s/\%V./ /g
   endif
   call s:close_window()
 
+  " move cursor to destination and support re-select
+  call cursor(selected_line_numbers[0], dest_x)
+  execute "normal \<C-v>" . (s:height - 1). "j" . s:width . "l\<ESC>"
+  call cursor(selected_line_numbers[0], dest_x)
 endfunction
 
 function! block_paste#create_block()
