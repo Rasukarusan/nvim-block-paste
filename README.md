@@ -1,4 +1,4 @@
-Vim-Block-Paste
+Nvim-Block-Paste
 ====
 
 You can insert visual-block to anywhere!
@@ -11,7 +11,7 @@ Remove spaces after pasted
 
 ## Requirement
 
-- NeoVim >= 0.4
+- Neim >= 0.4
 
 ## Install
 
