@@ -11,14 +11,14 @@ Remove spaces after pasted
 
 ## Requirement
 
-- Neim >= 0.4
+- Neovim >= 0.4
 
 ## Install
 
 You can use the plugin manager. e.g. dein.vim
 ```vim
 [[plugins]]
-repo = 'Rasukarusan/vim-block-paste'
+repo = 'Rasukarusan/nvim-block-paste'
 ```
 
 ## Usage
