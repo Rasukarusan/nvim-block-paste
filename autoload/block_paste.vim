@@ -165,11 +165,12 @@ function! block_paste#create_block()
   let config = {'relative': 'editor', 'row': row, 'col': col, 'width':s:width, 'height': s:height, 'anchor': 'NW', 'style': 'minimal'}
   let s:back_win_id = s:create_window(config, 'Normal:NonText')
   let s:block_win_id = s:create_window(config, 'Normal:Visual')
-  call setline(1, s:selected)
-  if s:height > 1
-    " remove '^@'
-    %s/[\x0]//g
-  endif
+
+  " To prevent the '^@' character from being inserted, execute setline() one line at a time
+  let selected = split(s:selected, '\n')
+  for i in range(len(selected))
+    call setline(i + 1, selected[i])
+  endfor
 
   " for calculating the amount of block movement
   let s:moving_x = 0
