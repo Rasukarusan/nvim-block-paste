@@ -23,7 +23,7 @@ repo = 'Rasukarusan/nvim-block-paste'
 
 ## Usage
 
-Select blockwise by `C-v` and execute `:Block`
+Select blockwise by <kbd>Ctrl-v</kbd> and execute `:Block`
 
 ```vim
 :'<,'>Block
