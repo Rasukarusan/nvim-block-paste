@@ -3,5 +3,5 @@ if exists("g:loaded_block_paste")
 endif
 let g:loaded_block_paste = 1
 
-command! -range Block call block_paste#create_block()
+command! -bang -range Block call block_paste#create_block(<bang>0)
 command! ToggleBlockPasteFillBlank call block_paste#toggle_fill_blank()
