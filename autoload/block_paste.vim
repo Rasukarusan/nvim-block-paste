@@ -127,10 +127,12 @@ function! s:put()
   endfor
 
   " removed the floating window and selected string
-  if get(g:, 'block_paste_fill_blank', 0)
-    silent '<,'>s/\%V.//g
-  else
-    silent '<,'>s/\%V./ /g
+  if !s:bang
+    if get(g:, 'block_paste_fill_blank', 0)
+      silent '<,'>s/\%V.//g
+    else
+      silent '<,'>s/\%V./ /g
+    endif
   endif
   call s:close_window()
 
@@ -140,7 +142,8 @@ function! s:put()
   call cursor(selected_line_numbers[0], dest_x)
 endfunction
 
-function! block_paste#create_block()
+function! block_paste#create_block(bang)
+  let s:bang = a:bang
   let s:buffer_width = s:get_buffer_width()
   let s:buffer_min_row = line('w0')
 
@@ -158,19 +161,21 @@ function! block_paste#create_block()
   let @@ = tmp
 
   " Create a floating window in the selection
-  let s:width = abs(end.x - start.x) + 1
-  let s:height = abs(end.y - start.y) + 1
-  let row = start.y - 1 + s:get_tabline_height()
-  let col = start.x - 1
-  let config = {'relative': 'editor', 'row': row, 'col': col, 'width':s:width, 'height': s:height, 'anchor': 'NW', 'style': 'minimal'}
-  let s:back_win_id = s:create_window(config, 'Normal:NonText')
-  let s:block_win_id = s:create_window(config, 'Normal:Visual')
+    let s:width = abs(end.x - start.x) + 1
+    let s:height = abs(end.y - start.y) + 1
+    let row = start.y - 1 + s:get_tabline_height()
+    let col = start.x - 1
+    let config = {'relative': 'editor', 'row': row, 'col': col, 'width':s:width, 'height': s:height, 'anchor': 'NW', 'style': 'minimal'}
+    let s:block_win_id = s:create_window(config, 'Normal:Visual')
+    if !s:bang
+      let s:back_win_id = s:create_window(config, 'Normal:NonText')
+    endif
 
-  " To prevent the '^@' character from being inserted, execute setline() one line at a time
-  let selected = split(s:selected, '\n')
-  for i in range(len(selected))
-    call setline(i + 1, selected[i])
-  endfor
+    " To prevent the '^@' character from being inserted, execute setline() one line at a time
+    let selected = split(s:selected, '\n')
+    for i in range(len(selected))
+      call setline(i + 1, selected[i])
+    endfor
 
   " for calculating the amount of block movement
   let s:moving_x = 0
