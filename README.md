@@ -9,6 +9,9 @@ You can insert visual-block to anywhere!
 Remove spaces after pasted
 ![demo.gif](https://user-images.githubusercontent.com/17779386/106455970-49427780-64d0-11eb-9d67-eb34d2abcef0.gif)
 
+Only copy
+![demo3.gif](https://user-images.githubusercontent.com/17779386/112155541-bfd63880-8c28-11eb-84ce-c7f59904e240.gif)
+
 ## Requirement
 
 - Neovim >= 0.4
@@ -27,6 +30,10 @@ Select blockwise by <kbd>Ctrl-v</kbd> and execute `:Block`
 
 ```vim
 :'<,'>Block
+```
+or if you want only copy, use `!`.
+```vim
+:'<,'>Block!
 ```
 
 | keybind | description |
