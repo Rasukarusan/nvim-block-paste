@@ -166,10 +166,10 @@ function! block_paste#create_block(bang)
     let row = start.y - 1 + s:get_tabline_height()
     let col = start.x - 1
     let config = {'relative': 'editor', 'row': row, 'col': col, 'width':s:width, 'height': s:height, 'anchor': 'NW', 'style': 'minimal'}
-    let s:block_win_id = s:create_window(config, 'Normal:Visual')
     if !s:bang
       let s:back_win_id = s:create_window(config, 'Normal:NonText')
     endif
+    let s:block_win_id = s:create_window(config, 'Normal:Visual')
 
     " To prevent the '^@' character from being inserted, execute setline() one line at a time
     let selected = split(s:selected, '\n')
