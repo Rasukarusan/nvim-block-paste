@@ -38,10 +38,10 @@ or if you want only copy, use `!`.
 
 | keybind | description |
 | ------ | ------ |
-| h   | move left the block  |
-| j   | move down the block  |
-| k   | move up the block  |
-| l   | move right the block  |
+| h/H   | move left the block  |
+| j/J   | move down the block  |
+| k/K   | move up the block  |
+| l/L   | move right the block  |
 | p   | put the block  |
 | u   | undo  |
 
