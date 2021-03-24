@@ -188,6 +188,11 @@ function! block_paste#create_block(bang)
   nnoremap <buffer><nowait><silent> h :call <SID>move_x(-1)<CR>
   nnoremap <buffer><nowait><silent> p :call <SID>put()<CR>
   nnoremap <buffer><nowait><silent> u :call <SID>restore()<CR>
+
+  nnoremap <buffer><nowait><silent> J :call <SID>move_y(5)<CR>
+  nnoremap <buffer><nowait><silent> K :call <SID>move_y(-5)<CR>
+  nnoremap <buffer><nowait><silent> L :call <SID>move_x(5)<CR>
+  nnoremap <buffer><nowait><silent> H :call <SID>move_x(-5)<CR>
 endfunction
 
 function! block_paste#toggle_fill_blank()
