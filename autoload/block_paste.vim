@@ -62,33 +62,38 @@ function! s:focus_to_main_window()
    execute "0windo :"
 endfunction
 
-function! s:move_y(direction)
-  if s:pos.y + s:moving_y <= s:buffer_min_row && a:direction == -1
+function! s:move_y(vector)
+  " control not to go too far to the top
+  if s:pos.y + s:moving_y <= s:buffer_min_row && a:vector < 0
+    return
+  endif
+  " control not to go too far to the bottom
+  if s:pos.y + s:moving_y + s:height > s:buffer_max_row && a:vector > 0
     return
   endif
   let config = nvim_win_get_config(s:block_win_id)
-  let config.row += a:direction
+  let config.row += a:vector
   call nvim_win_set_config(s:block_win_id, config)
 
   " for calculate the block movement
-  let s:moving_y += a:direction
+  let s:moving_y += a:vector
 endfunction
 
-function! s:move_x(direction)
+function! s:move_x(vector)
   " control not to go too far to the left
-  if s:pos.x + s:moving_x == 1 && a:direction == -1
+  if s:pos.x + s:moving_x < 1 && a:vector < 0
     return
   endif
   " control not to go too far to the right
-  if s:pos.x + s:moving_x + s:width == s:buffer_width && a:direction == 1
+  if s:pos.x + s:moving_x + s:width > s:buffer_width && a:vector > 0
     return
   endif
   let config = nvim_win_get_config(s:block_win_id)
-  let config.col += a:direction
+  let config.col += a:vector
   call nvim_win_set_config(s:block_win_id, config)
 
   " for calculate the block movement
-  let s:moving_x += a:direction
+  let s:moving_x += a:vector
 endfunction
 
 function! s:restore()
@@ -146,6 +151,7 @@ function! block_paste#create_block(bang)
   let s:bang = a:bang
   let s:buffer_width = s:get_buffer_width()
   let s:buffer_min_row = line('w0')
+  let s:buffer_max_row = line('w$')  + s:get_tabline_height()
 
   " Get the start / end rows and columns of the selection
   normal `<
@@ -161,21 +167,21 @@ function! block_paste#create_block(bang)
   let @@ = tmp
 
   " Create a floating window in the selection
-    let s:width = abs(end.x - start.x) + 1
-    let s:height = abs(end.y - start.y) + 1
-    let row = start.y - 1 + s:get_tabline_height()
-    let col = start.x - 1
-    let config = {'relative': 'editor', 'row': row, 'col': col, 'width':s:width, 'height': s:height, 'anchor': 'NW', 'style': 'minimal'}
-    if !s:bang
-      let s:back_win_id = s:create_window(config, 'Normal:NonText')
-    endif
-    let s:block_win_id = s:create_window(config, 'Normal:Visual')
+  let s:width = abs(end.x - start.x) + 1
+  let s:height = abs(end.y - start.y) + 1
+  let row = start.y - 1 + s:get_tabline_height()
+  let col = start.x - 1
+  let config = {'relative': 'editor', 'row': row, 'col': col, 'width':s:width, 'height': s:height, 'anchor': 'NW', 'style': 'minimal'}
+  if !s:bang
+    let s:back_win_id = s:create_window(config, 'Normal:NonText')
+  endif
+  let s:block_win_id = s:create_window(config, 'Normal:Visual')
 
-    " To prevent the '^@' character from being inserted, execute setline() one line at a time
-    let selected = split(s:selected, '\n')
-    for i in range(len(selected))
-      call setline(i + 1, selected[i])
-    endfor
+  " To prevent the '^@' character from being inserted, execute setline() one line at a time
+  let selected = split(s:selected, '\n')
+  for i in range(len(selected))
+    call setline(i + 1, selected[i])
+  endfor
 
   " for calculating the amount of block movement
   let s:moving_x = 0
