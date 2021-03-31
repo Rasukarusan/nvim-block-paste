@@ -6,10 +6,10 @@ You can insert visual-block to anywhere!
 ## Demo
 ![demo2.gif](https://user-images.githubusercontent.com/17779386/106469918-42713000-64e3-11eb-87df-b6a2dcd505c4.gif)
 
-Remove spaces after pasted
+Remove spaces after pasted(toggle by `:BlockPasteFillBlank`)
 ![demo.gif](https://user-images.githubusercontent.com/17779386/106455970-49427780-64d0-11eb-9d67-eb34d2abcef0.gif)
 
-Only copy
+Only copy(`:'<,'>Block!`)
 ![demo3.gif](https://user-images.githubusercontent.com/17779386/112155541-bfd63880-8c28-11eb-84ce-c7f59904e240.gif)
 
 ## Requirement
@@ -53,9 +53,9 @@ Default 0 (replace with a space).
 let g:block_paste_fill_blank = 1
 ```
 
-You can toggle by `ToggleBlockPasteFillBlank ` command.
+You can toggle by `BlockPasteFillBlank ` command.
 ```vim
-:ToggleBlockPasteFillBlank 
+:BlockPasteFillBlank 
 ```
 
 |  |  |
