@@ -67,10 +67,6 @@ function! s:move_y(vector)
   if s:pos.y + s:moving_y <= s:buffer_min_row && a:vector < 0
     return
   endif
-  " control not to go too far to the bottom
-  if s:pos.y + s:moving_y + s:height > s:buffer_max_row && a:vector > 0
-    return
-  endif
   let config = nvim_win_get_config(s:block_win_id)
   let config.row += a:vector
   call nvim_win_set_config(s:block_win_id, config)
