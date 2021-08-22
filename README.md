@@ -4,13 +4,15 @@ Nvim-Block-Paste
 You can insert visual-block to anywhere!
 
 ## Demo
-![demo2.gif](https://user-images.githubusercontent.com/17779386/106469918-42713000-64e3-11eb-87df-b6a2dcd505c4.gif)
+<img width="600" src="https://user-images.githubusercontent.com/17779386/106469918-42713000-64e3-11eb-87df-b6a2dcd505c4.gif">
 
 Remove spaces after pasted(toggle by `:BlockPasteFillBlank`)
-![demo.gif](https://user-images.githubusercontent.com/17779386/106455970-49427780-64d0-11eb-9d67-eb34d2abcef0.gif)
+
+<img width="600" src="https://user-images.githubusercontent.com/17779386/106455970-49427780-64d0-11eb-9d67-eb34d2abcef0.gif" >
 
 Only copy(`:'<,'>Block!`)
-![demo3.gif](https://user-images.githubusercontent.com/17779386/112155541-bfd63880-8c28-11eb-84ce-c7f59904e240.gif)
+
+<img width="600" src="https://user-images.githubusercontent.com/17779386/112155541-bfd63880-8c28-11eb-84ce-c7f59904e240.gif" >
 
 ## Requirement
 
