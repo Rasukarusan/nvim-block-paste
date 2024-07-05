@@ -31,11 +31,11 @@ repo = 'Rasukarusan/nvim-block-paste'
 Select blockwise by <kbd>Ctrl-v</kbd> and execute `:Block`
 
 ```vim
-:'<,'>Block
+:Block
 ```
 or if you want only copy, use `!`.
 ```vim
-:'<,'>Block!
+:Block!
 ```
 
 | keybind | description |
