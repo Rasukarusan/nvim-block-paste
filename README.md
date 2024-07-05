@@ -10,7 +10,7 @@ Remove spaces after pasted(toggle by `:BlockPasteFillBlank`)
 
 <img width="600" src="https://user-images.githubusercontent.com/17779386/106455970-49427780-64d0-11eb-9d67-eb34d2abcef0.gif" >
 
-Only copy(`:'<,'>Block!`)
+Only copy(`:Block!`)
 
 <img width="600" src="https://user-images.githubusercontent.com/17779386/112155541-bfd63880-8c28-11eb-84ce-c7f59904e240.gif" >
 
